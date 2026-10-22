@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Procesos Documentales | AFD</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h1>Gestor Documental Corporativo</h1>
+            <p class="subtitle">Administrador de Procesos basado en Autómatas Finitos Deterministas (AFD)</p>
+          </div>
+        </div>
+        <div class="header-badge">
+          <span>Autómatas y Lenguajes Formales</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="dashboard-grid">
+
+      <!-- Formal Definition Card -->
+      <section class="card formal-spec-card">
+        <div class="card-header">
+          <span class="card-tag">Modelo Matemático</span>
+          <h2>Tupla Formal del Autómata $M = (Q, \Sigma, \delta, q_0, F)$</h2>
+        </div>
+        <div class="formal-spec-grid">
+          <div class="spec-item">
+            <span class="spec-symbol">Q</span>
+            <div class="spec-detail">
+              <strong>Conjunto de Estados:</strong>
+              <code>{ recibido, en_revision, aprobado, rechazado, archivado }</code>
+            </div>
+          </div>
+          <div class="spec-item">
+            <span class="spec-symbol">&Sigma;</span>
+            <div class="spec-detail">
+              <strong>Alfabeto de Entrada (Acciones):</strong>
+              <code>{ enviar_a_revison, aprobar, rechazar, archivar }</code>
+            </div>
+          </div>
+          <div class="spec-item">
+            <span class="spec-symbol">q<sub>0</sub></span>
+            <div class="spec-detail">
+              <strong>Estado Inicial:</strong>
+              <code class="tag-init">recibido</code>
+            </div>
+          </div>
+          <div class="spec-item">
+            <span class="spec-symbol">F</span>
+            <div class="spec-detail">
+              <strong>Estado Final de Aceptación:</strong>
+              <code class="tag-final">{ archivado }</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Automaton Visual Diagram Card -->
+      <section class="card diagram-card">
+        <div class="card-header with-actions">
+          <div>
+            <span class="card-tag">Visualización en Tiempo Real</span>
+            <h2>Diagrama de Transición de Estados</h2>
+          </div>
+          <div class="diagram-legend">
+            <span class="legend-item"><span class="legend-dot active-dot"></span> Estado Activo</span>
+            <span class="legend-item"><span class="legend-dot final-dot"></span> Estado Final (F)</span>
+          </div>
+        </div>
+
+        <div class="diagram-container">
+          <svg id="automaton-svg" viewBox="0 0 920 300" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <!-- Arrowhead definition -->
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#64748b" />
+              </marker>
+              <marker id="arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#3b82f6" />
+              </marker>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            <!-- Initial start indicator -->
+            <path d="M 40 150 L 85 150" class="edge-initial" marker-end="url(#arrow)" />
+            <text x="35" y="142" class="edge-text initial-text">Inicio</text>
+
+            <!-- Transitions / Edges -->
+            <!-- 1. recibido -> en_revision -->
+            <g id="edge-enviar_a_revison" class="edge-group">
+              <path d="M 175 150 L 300 150" class="edge" marker-end="url(#arrow)" />
+              <rect x="185" y="132" width="105" height="18" rx="4" class="label-bg" />
+              <text x="237" y="145" class="edge-label">enviar_a_revison</text>
+            </g>
+
+            <!-- 2. en_revision -> aprobado -->
+            <g id="edge-aprobar" class="edge-group">
+              <path d="M 380 128 L 525 80" class="edge" marker-end="url(#arrow)" />
+              <rect x="420" y="86" width="65" height="18" rx="4" class="label-bg" />
+              <text x="452" y="99" class="edge-label">aprobar</text>
+            </g>
+
+            <!-- 3. en_revision -> rechazado -->
+            <g id="edge-rechazar" class="edge-group">
+              <path d="M 380 172 L 525 220" class="edge" marker-end="url(#arrow)" />
+              <rect x="420" y="196" width="65" height="18" rx="4" class="label-bg" />
+              <text x="452" y="209" class="edge-label">rechazar</text>
+            </g>
+
+            <!-- 4. aprobado -> archivado -->
+            <g id="edge-archivar" class="edge-group">
+              <path d="M 615 75 L 750 75" class="edge" marker-end="url(#arrow)" />
+              <rect x="652" y="57" width="62" height="18" rx="4" class="label-bg" />
+              <text x="683" y="70" class="edge-label">archivar</text>
+            </g>
+
+            <!-- State Nodes -->
+            <!-- Node: recibido (q0) -->
+            <g id="node-recibido" class="state-node" transform="translate(130, 150)">
+              <circle class="node-halo" r="48" />
+              <circle class="node-circle" r="40" />
+              <text y="-8" class="node-sub">q0</text>
+              <text y="12" class="node-title">recibido</text>
+            </g>
+
+            <!-- Node: en_revision -->
+            <g id="node-en_revision" class="state-node" transform="translate(345, 150)">
+              <circle class="node-halo" r="48" />
+              <circle class="node-circle" r="40" />
+              <text y="-8" class="node-sub">q1</text>
+              <text y="12" class="node-title">en_revision</text>
+            </g>
+
+            <!-- Node: aprobado -->
+            <g id="node-aprobado" class="state-node" transform="translate(570, 75)">
+              <circle class="node-halo" r="48" />
+              <circle class="node-circle" r="40" />
+              <text y="-8" class="node-sub">q2</text>
+              <text y="12" class="node-title">aprobado</text>
+            </g>
+
+            <!-- Node: rechazado -->
+            <g id="node-rechazado" class="state-node" transform="translate(570, 225)">
+              <circle class="node-halo" r="48" />
+              <circle class="node-circle" r="40" />
+              <text y="-8" class="node-sub">q3</text>
+              <text y="12" class="node-title">rechazado</text>
+            </g>
+
+            <!-- Node: archivado (F - Final State con doble círculo) -->
+            <g id="node-archivado" class="state-node final-state" transform="translate(795, 75)">
+              <circle class="node-halo" r="48" />
+              <circle class="node-circle outer-final" r="42" />
+              <circle class="node-circle" r="35" />
+              <text y="-8" class="node-sub">q4 (F)</text>
+              <text y="12" class="node-title">archivado</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Document Management & Control Panel -->
+      <section class="card document-card">
+        <div class="card-header with-actions">
+          <div>
+            <span class="card-tag">Instancia de Documento</span>
+            <h2>Ficha del Documento en Proceso</h2>
+          </div>
+          <button id="btn-reset" class="btn-secondary" title="Reiniciar al estado inicial q0">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+              <path d="M21 3v5h-5"></path>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+              <path d="M3 21v-5h5"></path>
+            </svg>
+            Nuevo / Reiniciar
+          </button>
+        </div>
+
+        <div class="document-details">
+          <div class="doc-header-row">
+            <div>
+              <span class="doc-id">DOC-2026-0428</span>
+              <h3 class="doc-title">Contrato de Servicios de Auditoría Externa</h3>
+              <p class="doc-meta"><strong>Departamento:</strong> Legal & Finanzas &bull; <strong>Remitente:</strong> Asesoría Jurídica</p>
+            </div>
+            <div class="doc-status-container">
+              <span class="status-label">Estado Actual:</span>
+              <div id="status-badge" class="status-badge status-recibido">
+                <span class="badge-dot"></span>
+                <span id="status-text">recibido</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="status-description-box" class="status-description">
+            <p id="status-explanation">El documento acaba de ingresar a la bandeja del sistema y se encuentra en estado inicial recibido.</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons (Sigma actions) -->
+        <div class="action-panel">
+          <h3>Acciones del Alfabeto (&Sigma;) Disponibles:</h3>
+          <p class="action-panel-help">Sólo se activarán las acciones válidas según la función de transición $\delta$ para el estado actual.</p>
+          <div class="action-buttons-grid">
+            <button id="btn-enviar_a_revison" class="action-btn" data-action="enviar_a_revison">
+              <span class="btn-icon">📨</span>
+              <span class="btn-label">enviar_a_revison</span>
+              <span class="btn-hint">&delta;(recibido) &rarr; en_revision</span>
+            </button>
+
+            <button id="btn-aprobar" class="action-btn" data-action="aprobar">
+              <span class="btn-icon">✅</span>
+              <span class="btn-label">aprobar</span>
+              <span class="btn-hint">&delta;(en_revision) &rarr; aprobado</span>
+            </button>
+
+            <button id="btn-rechazar" class="action-btn" data-action="rechazar">
+              <span class="btn-icon">❌</span>
+              <span class="btn-label">rechazar</span>
+              <span class="btn-hint">&delta;(en_revision) &rarr; rechazado</span>
+            </button>
+
+            <button id="btn-archivar" class="action-btn" data-action="archivar">
+              <span class="btn-icon">📁</span>
+              <span class="btn-label">archivar</span>
+              <span class="btn-hint">&delta;(aprobado) &rarr; archivado</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transition Log / History -->
+      <section class="card log-card">
+        <div class="card-header with-actions">
+          <div>
+            <span class="card-tag">Auditoría del AFD</span>
+            <h2>Registro de Transiciones Formales</h2>
+          </div>
+          <span class="log-count" id="log-count">0 transiciones</span>
+        </div>
+
+        <div class="log-table-container">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>Paso</th>
+                <th>Estado Origen (q)</th>
+                <th>Acción Entrada (&sigma;)</th>
+                <th>Fórmula de Transición</th>
+                <th>Estado Destino (q')</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody id="log-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Prototipo Académico &bull; Modelado y Control de Procesos mediante Autómatas Finitos &bull; Universidad</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
